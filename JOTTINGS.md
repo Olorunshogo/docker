@@ -72,3 +72,32 @@ The `-p` flag (short for `--publish`) creates a port mapping between the host an
 
 2. After a few seconds, open your web browser to [http://localhost:3000](http://localhost:3000). You should see your app.
 
+
+### The container's filesystem
+When a container runs, it uses the various layers from an image for its filesystem. Each container also gets its own "scratch space" to **create/update/remove** files. Any changes won't be seen in another container, even if they're using the same image.
+
+#### See this in practice
+
+To see this in action, you're going to start two containers. In one container, you'll create a file. In the other container, you'll check whether that same file exists.
+
+1. Start an Alpine container and create a new file in it.
+
+```bash
+$ docker run --rm alpine touch greeting.txt
+```
+
+2. Run a new Alpine container and use the `stat` command to check whether the file exists.
+
+```bash
+$ docker run --rm alpine stat greeting.txt
+```
+
+You should see output similar to the following that indicates the file does not exist in the new container.
+
+```bash
+$ stat: can't stat 'greeting.txt': No such file or directory
+```
+
+The `greeting.txt` file created by the first container did not exist in the second container. That is because the writeable "top layer" of each container is isolated. Even though both containers shared the same underlying layers that make up the base image, the writable layer is unique to each container.
+
+
