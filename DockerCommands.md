@@ -36,6 +36,17 @@ EXPOSE 3000
 + Docker List all inclusing stopped: `docker ps -a`
 + Docker rm: `docker rm <container_id>`
 
+
+## Containers
+Docker containers
+
++ docker stop <the-container-id>
++ docker rm <the-container-id>
++ docker rm -f <the-container-id>
+
+
+
+
 ## Images
 docker image
 
@@ -47,6 +58,13 @@ docker image
 + docker rm -f $(docker ps -aq)
 + Force delete: docker rmi -f IMAGE_ID
 + Remove all ununsed images: docker image prune -a
+
+## Live/Run
+
++ docker run -dp 127.0.0.1:3000:3000 getting-started
++ docker run -dp 127.0.0.1:3001:3000 getting-started
+
+
 
 
 Step 3 (Optional): Cleanup everything else
